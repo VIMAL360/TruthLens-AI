@@ -59,3 +59,7 @@ average_loss = total_loss / (i + 1)
 
 print("\nTraining Complete!")
 print(f"Average Loss: {average_loss:.4f}")
+
+torch.save(model.state_dict(), "models/truthlens_bert.pth")
+
+print("\nModel saved successfully!")

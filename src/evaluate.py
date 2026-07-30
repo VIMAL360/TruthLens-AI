@@ -10,6 +10,14 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Load model
 model = FakeNewsClassifier()
+
+model.load_state_dict(
+    torch.load(
+        "models/truthlens_bert.pth",
+        map_location=device
+    )
+)
+
 model.to(device)
 
 # Evaluation mode
