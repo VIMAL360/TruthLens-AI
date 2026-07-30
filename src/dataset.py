@@ -1,27 +1,24 @@
 import torch
 from torch.utils.data import Dataset
-from transformers import BertTokenizer
 
 
 class FakeNewsDataset(Dataset):
 
-    def __init__(self, dataframe, tokenizer, max_length=128):
+    def __init__(self, texts, labels, tokenizer, max_length=128):
 
-        self.data = dataframe
+        self.texts = texts
+        self.labels = labels
         self.tokenizer = tokenizer
         self.max_length = max_length
 
-
     def __len__(self):
 
-        return len(self.data)
-
+        return len(self.texts)
 
     def __getitem__(self, index):
 
-        text = self.data.iloc[index]["clean_text"]
-        label = self.data.iloc[index]["label"]
-
+        text = self.texts[index]
+        label = self.labels[index]
 
         encoding = self.tokenizer(
             text,
@@ -31,9 +28,8 @@ class FakeNewsDataset(Dataset):
             return_tensors="pt"
         )
 
-
         return {
-            "input_ids": encoding["input_ids"].squeeze(),
-            "attention_mask": encoding["attention_mask"].squeeze(),
+            "input_ids": encoding["input_ids"].squeeze(0),
+            "attention_mask": encoding["attention_mask"].squeeze(0),
             "label": torch.tensor(label, dtype=torch.long)
         }
