@@ -28,11 +28,8 @@ total_loss = 0
 
 print("\nStarting Training...\n")
 
-for i, batch in enumerate(tqdm(train_loader)):
-
-    if i == 20:
-        break    
-
+for batch in tqdm(train_loader):
+    
     input_ids = batch["input_ids"].to(device)
     attention_mask = batch["attention_mask"].to(device)
     labels = batch["label"].to(device)
@@ -55,7 +52,7 @@ for i, batch in enumerate(tqdm(train_loader)):
 
     total_loss += loss.item()
 
-average_loss = total_loss / (i + 1)
+average_loss = total_loss / len(train_loader)
 
 print("\nTraining Complete!")
 print(f"Average Loss: {average_loss:.4f}")
